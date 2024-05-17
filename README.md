@@ -12,6 +12,10 @@ conda install numpy matplotlib jupyterlab
 
 If you wish, you can use `pip` as well.
 
+## Usage
+
+The main source file is `oxyhb_binding_curve.py`. It contains a class called `OxyHbBindingCurve` that calculates binding curves based on the equations on page 8 of the supplement of the cited paper. The notebook `plot_binding_curves.ipynb` uses that class to plot binding curves.
+
 ## Citation
 
 [doi: 10.1074/jbc.M610717200](https://doi.org/10.1074/jbc.M610717200)
