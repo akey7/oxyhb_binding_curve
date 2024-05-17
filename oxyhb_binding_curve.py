@@ -1,5 +1,5 @@
 class OxyHbBindingCurve:
-    def __init__(self, pco2_mmhg, two_three_dpg_M, temp_c=37.0, ph=7.4):
+    def __init__(self, pco2_mmhg, two_three_dpg_M, temp_c=37.0, ph=7.2):
         """
         Instantiates a new instance of a binding curve object to be calculated
         using the given parameters. Also, it defines a number of constants
@@ -22,7 +22,7 @@ class OxyHbBindingCurve:
 
         self.k2 = 2.4e-5
         self.k2dd = 1.0e-6
-        self.k3 = 2.4e-5
+        self.k3d = 2.4e-5
         self.k3dd = 5.0e-6
         self.k4dd = 6.77e11
         self.k5dd = 7.2e-8
@@ -56,8 +56,20 @@ class OxyHbBindingCurve:
         return 1.6914 + 0.0618*self.temp + 0.00048*self.temp_c**2
 
     @property
+    def k4d(self):
+        return self.k4dd
+
+    @property
     def k_hbo2(self):
-        pass
+        k4d = self.k4d
+        k3d = self.k3d
+        k3dd = self.k3dd
+        k6dd = self.k6dd
+        co2_M = self.co2_M
+        h_plus_M = self.h_plus_M
+
+        numerator = k4d * (k3d * co2_M * (1 + k3dd/h_plus_M) + (1 + h_plus_M / k6dd))
+        # denominator = 
 
     def __str__(self):
         return f"pco2_mmhg={self.pco2_mmhg} two_three_dpg_M={self.two_three_dpg} temp_c={self.temp_c} ph={self.ph}"
