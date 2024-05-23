@@ -1,5 +1,5 @@
 # oxyhb_binding_curve
-Calculates oxyHb binding curves as described in the supplement as found in Kinoshita et al. (citation at bottom).
+Calculates oxyHb binding curves as described in the supplement as found in Dash et al. (citation at bottom).
 
 ## Conda virtual environment
 
@@ -18,6 +18,4 @@ The main source file is `oxyhb_binding_curve.py`. It contains a class called `Ox
 
 ## Citation
 
-[doi: 10.1074/jbc.M610717200](https://doi.org/10.1074/jbc.M610717200)
-
-Kinoshita, A. et al. Roles of Hemoglobin Allostery in Hypoxia-induced Metabolic Alterations in Erythrocytes. Journal of Biological Chemistry 282, 10731–10741 (2007).
+Dash, R.K., Korman, B. & Bassingthwaighte, J.B. Simple accurate mathematical models of blood HbO2 and HbCO2 dissociation curves at varied physiological conditions: evaluation and comparison with other models. Eur J Appl Physiol 116, 97–113 (2016). https://doi.org/10.1007/s00421-015-3228-3
