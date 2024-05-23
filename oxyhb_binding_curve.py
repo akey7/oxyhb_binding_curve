@@ -1,5 +1,5 @@
 class OxyHbBindingCurve:
-    def __init__(self, pco2_mmhg, two_three_dpg_M, temp_c=37.0, ph=7.2):
+    def __init__(self, temp_c=37.0):
         """
         Instantiates a new instance of a binding curve object to be calculated
         using the given parameters. Also, it defines a number of constants
@@ -20,56 +20,40 @@ class OxyHbBindingCurve:
             Temperature in celsius.
         """
 
-        self.k2 = 2.4e-5
-        self.k2dd = 1.0e-6
-        self.k3d = 2.4e-5
-        self.k3dd = 5.0e-6
-        self.k4dd = 6.77e11
-        self.k5dd = 7.2e-8
-        self.k6dd = 8.4e-9
-        self.kd = 1200.0
-        self.n = 2.7
+        self.w_pl = 0.94
+
         self.ideal_gas_const = 62.36   # (L*mmHg) / (mol*K)
 
-        self.ph = ph
-        self.pco2_mmhg = pco2_mmhg
-        self.two_three_dpg = two_three_dpg_M
         self.temp_c = temp_c
 
-        self.h_plus_M = 10**(-ph)
-        self.co2_M = pco2_mmhg / self.ideal_gas_const / temp_c
+        # self.h_plus_M = 10**(-ph)
 
     @property
-    def n1(self):
-        return -6.775 + 2.0372*self.ph - 0.1235*self.ph**2
-    
-    @property
-    def n2(self):
-        return -0.008765 + 0.00086*self.pco2_mmhg + 6.3e-7*self.pco2_mmhg**2
-    
-    @property
-    def n3(self):
-        return 0.2583 + 28.6978*self.two_three_dpg - 917.69*self.two_three_dpg**2
-    
-    @property 
-    def n4(self):
-        return 1.6914 + 0.0618*self.temp + 0.00048*self.temp_c**2
+    def alpha_o2(self):
+        """
+        Returns
+        -------
+        alpha_o2 : float
+            Units M/mmHg
+        """
+
+        return (1.37 - 1.37e-2*(self.temp_c-37.0) + 5.8e-4*(self.temp_c-37.0)**2) * (1.0e-6 / self.w_pl)
 
     @property
-    def k4d(self):
-        return self.k4dd
+    def alpha_co2(self):
+        """
+        Returns
+        -------
+        alpha_co2
+            Units M/mmHg
+        """
 
-    @property
-    def k_hbo2(self):
-        k4d = self.k4d
-        k3d = self.k3d
-        k3dd = self.k3dd
-        k6dd = self.k6dd
-        co2_M = self.co2_M
-        h_plus_M = self.h_plus_M
-
-        numerator = k4d * (k3d * co2_M * (1 + k3dd/h_plus_M) + (1 + h_plus_M / k6dd))
-        # denominator = 
+        return (3.07 - 5.7e-2*(self.temp_c-37.0) + 2.0e-3*(self.temp_c-37.0)**2) * (1.0e-5 / self.w_pl)
 
     def __str__(self):
         return f"pco2_mmhg={self.pco2_mmhg} two_three_dpg_M={self.two_three_dpg} temp_c={self.temp_c} ph={self.ph}"
+
+
+if __name__ == '__main__':
+    oxy_hb_binding_curve = OxyHbBindingCurve()
+    print(f'alpha_o2={oxy_hb_binding_curve.alpha_o2}, alpha_co2={oxy_hb_binding_curve.alpha_co2}')
